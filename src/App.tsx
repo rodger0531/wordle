@@ -3,6 +3,7 @@ import "./App.css";
 import * as R from "ramda";
 import list from "./Asset/list";
 import indexedList from "./Asset/indexedList";
+import { toast } from "react-toastify";
 
 const isAllowedKey = (key: string): boolean =>
   key.slice(0, 3) === "Key" || key === "Enter" || key === "Backspace";
@@ -23,7 +24,7 @@ function App() {
         if (currentGuess.length === 5) {
           const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
           if (indexedList[idx].indexOf(currentGuess.toLowerCase()) < 0) {
-            console.log("not a word");
+            toast.error("Not in word list");
             return;
           }
           setGuessList((prev) => {
