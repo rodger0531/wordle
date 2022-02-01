@@ -48,9 +48,17 @@ function App() {
     // console.log(charCodeAt)
   };
 
+  const resetGame = () => {
+    setAnswer(generateAnswer());
+    setGuessList([]);
+    setCurrentGuess("");
+  };
+
   return (
     <div className="App">
       <div className="App-header" tabIndex={-1} onKeyDown={handleKeyPress}>
+        <button onClick={resetGame}>Reset</button>
+        <hr />
         <div>Answer: {answer}</div>
         <div>Current Guess:{currentGuess}</div>
         <div>
