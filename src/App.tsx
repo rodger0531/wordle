@@ -21,6 +21,11 @@ function App() {
     if (!e.repeat && isAllowedKey(e.code)) {
       if (e.code === "Enter") {
         if (currentGuess.length === 5) {
+          const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
+          if (indexedList[idx].indexOf(currentGuess.toLowerCase()) < 0) {
+            console.log("not a word");
+            return;
+          }
           setGuessList((prev) => {
             const newArr = [...prev];
             newArr.push(currentGuess);
@@ -34,17 +39,22 @@ function App() {
         setCurrentGuess((prev) => prev.slice(0, -1));
         return;
       }
+      console.log(e.code.slice(3).charCodeAt(0));
       if (currentGuess.length < 5) {
         setCurrentGuess((prev) => prev + e.code.slice(3));
       }
     }
   };
 
+  const handleGuess = () => {
+    // console.log(charCodeAt)
+  };
+
   return (
     <div className="App">
       <div className="App-header" tabIndex={-1} onKeyDown={handleKeyPress}>
-        <div>answer: {answer}</div>
-        <div>current Guess:{currentGuess}</div>
+        <div>Answer: {answer}</div>
+        <div>Current Guess:{currentGuess}</div>
         <div>
           Guess list:
           <ul>
