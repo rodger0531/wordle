@@ -1,14 +1,14 @@
 const fs = require("fs");
-const rawData = require("./Asset/dictionary.json");
+const rawData = require("./Asset/words_dictionary.json");
 
 const data = Object.keys(rawData).filter((x) => x.length === 5);
 
-// generateList()
+generateList();
 generateIndexedList();
 console.log("finished");
 
 function generateList() {
-  var file = fs.createWriteStream("array.txt");
+  var file = fs.createWriteStream("./Asset/list.js");
   file.on("error", function (err) {
     console.log(err);
   });
@@ -33,7 +33,7 @@ function generateIndexedList() {
     }, {})
   );
 
-  var file = fs.createWriteStream("array.txt");
+  var file = fs.createWriteStream("./Asset/indexedList.js");
   file.on("error", function (err) {
     console.log(err);
   });
