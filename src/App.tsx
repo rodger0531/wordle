@@ -14,25 +14,45 @@ const generateAnswer = (): string => {
 
 function App() {
   const [answer, setAnswer] = useState<string>(generateAnswer());
-  const [guess, setGuess] = useState<[]>([]);
+  const [guessList, setGuessList] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
-
-  useEffect(() => {
-    console.log(answer);
-  }, []);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!e.repeat && isAllowedKey(e.code)) {
-      if (e.code === "Enter" || e.code === "Backspace") {
+      if (e.code === "Enter") {
+        if (currentGuess.length === 5) {
+          setGuessList((prev) => {
+            const newArr = [...prev];
+            newArr.push(currentGuess);
+            return newArr;
+          });
+          setCurrentGuess("");
+        }
         return;
       }
-      console.log("test", e.code.slice(3));
+      if (e.code === "Backspace") {
+        setCurrentGuess((prev) => prev.slice(0, -1));
+        return;
+      }
+      if (currentGuess.length < 5) {
+        setCurrentGuess((prev) => prev + e.code.slice(3));
+      }
     }
   };
+
   return (
     <div className="App">
       <div className="App-header" tabIndex={-1} onKeyDown={handleKeyPress}>
-        {answer}
+        <div>answer: {answer}</div>
+        <div>current Guess:{currentGuess}</div>
+        <div>
+          Guess list:
+          <ul>
+            {guessList.map((x, idx) => (
+              <li key={x + idx}>{x}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
