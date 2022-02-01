@@ -10,7 +10,7 @@ const isAllowedKey = (key: string): boolean =>
 
 const generateAnswer = (): string => {
   const idx = Math.floor(Math.random() * list.length);
-  return list[idx].toUpperCase();
+  return R.toUpper(list[idx]);
 };
 
 function App() {
@@ -23,29 +23,26 @@ function App() {
       if (e.code === "Enter") {
         if (currentGuess.length === 5) {
           const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
-          if (indexedList[idx].indexOf(currentGuess.toLowerCase()) < 0) {
+          if (indexedList[idx].indexOf(R.toLower(currentGuess)) < 0) {
             toast.error("Not in word list");
             return;
           }
-          setGuessList((prev) => {
-            const newArr = [...prev];
-            newArr.push(currentGuess);
-            return newArr;
-          });
+          setGuessList(R.append(currentGuess));
           setCurrentGuess("");
         }
         return;
       }
       if (e.code === "Backspace") {
-        setCurrentGuess((prev) => prev.slice(0, -1));
+        setCurrentGuess(R.slice(0, -1));
         return;
       }
-      console.log(e.code.slice(3).charCodeAt(0));
       if (currentGuess.length < 5) {
-        setCurrentGuess((prev) => prev + e.code.slice(3));
+        setCurrentGuess(R.flip(R.concat)(e.code.slice(3)));
       }
     }
   };
+
+  useEffect(() => {}, [guessList]);
 
   const handleGuess = () => {
     // console.log(charCodeAt)
