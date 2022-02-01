@@ -1,14 +1,24 @@
 import React, { useEffect, KeyboardEvent, useState } from "react";
 import "./App.css";
 import * as R from "ramda";
-import dictionary from "./Asset/array";
+import list from "./Asset/list";
+import indexedList from "./Asset/indexedList";
 
 const isAllowedKey = (key: string): boolean =>
   key.slice(0, 3) === "Key" || key === "Enter" || key === "Backspace";
 
+const generateAnswer = (): string => {
+  const idx = Math.floor(Math.random() * list.length);
+  return list[idx].toUpperCase();
+};
+
 function App() {
+  const [answer, setAnswer] = useState<string>(generateAnswer());
+  const [guess, setGuess] = useState<[]>([]);
+  const [currentGuess, setCurrentGuess] = useState<string>("");
+
   useEffect(() => {
-    // console.log(dictionary);
+    console.log(answer);
   }, []);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -22,7 +32,7 @@ function App() {
   return (
     <div className="App">
       <div className="App-header" tabIndex={-1} onKeyDown={handleKeyPress}>
-        Test
+        {answer}
       </div>
     </div>
   );
