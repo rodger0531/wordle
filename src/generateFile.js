@@ -31,7 +31,7 @@ function generateIndexedList() {
       }
       return acc;
     }, {})
-  );
+  ).sort((a, b) => a[0][0].localeCompare(b[0][0]));
 
   var file = fs.createWriteStream("./Asset/indexedList.js");
   file.on("error", function (err) {
