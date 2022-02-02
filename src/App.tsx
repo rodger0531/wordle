@@ -1,4 +1,4 @@
-import React, { useEffect, KeyboardEvent, useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
 import "./App.css";
 import * as R from "ramda";
 import list from "./Asset/list";
@@ -11,6 +11,35 @@ const isAllowedKey = (key: string): boolean =>
 const generateAnswer = (): string => {
   const idx = Math.floor(Math.random() * list.length);
   return R.toUpper(list[idx]);
+};
+
+const processGuess = (_guess: string, _answer: string): number[] => {
+  let guess: string[] = _guess.slice().split("");
+  /*
+   * Result array stores the state of each guess digits
+   * 0 - Wrong guess
+   * 1 - Correct guess, wrong position
+   * 2 - All correct
+   */
+  let result: number[] = [0, 0, 0, 0, 0];
+  let leftOverHash: Record<string, string> = {};
+  guess.forEach((x, idx) => {
+    if (x === _answer[idx]) {
+      result[idx] = 2;
+    } else {
+      leftOverHash[idx] = x;
+    }
+  });
+  let tempAnswer: string = _answer.slice();
+  Object.entries(leftOverHash).forEach((x) => {
+    const foundIndex = tempAnswer.indexOf(x[1]);
+    if (foundIndex >= 0) {
+      result[Number(x[0])] = 1;
+      tempAnswer =
+        tempAnswer.slice(0, foundIndex) + tempAnswer.slice(foundIndex + 1);
+    }
+  });
+  return result;
 };
 
 function App() {
@@ -27,8 +56,10 @@ function App() {
             toast.error("Not in word list");
             return;
           }
-          setGuessList(R.append(currentGuess));
+          const guessResult = processGuess(currentGuess, answer);
+          setGuessList(R.append(currentGuess + ": " + guessResult));
           setCurrentGuess("");
+          console.log("finished Enter");
         }
         return;
       }
@@ -40,12 +71,6 @@ function App() {
         setCurrentGuess(R.flip(R.concat)(e.code.slice(3)));
       }
     }
-  };
-
-  useEffect(() => {}, [guessList]);
-
-  const handleGuess = () => {
-    // console.log(charCodeAt)
   };
 
   const resetGame = () => {
