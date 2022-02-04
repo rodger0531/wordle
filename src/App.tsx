@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState } from "react";
+import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
 import "./App.css";
 import * as R from "ramda";
 import list from "./Asset/list";
@@ -11,6 +11,19 @@ const isAllowedKey = (key: string): boolean =>
 const generateAnswer = (): string => {
   const idx = Math.floor(Math.random() * list.length);
   return R.toUpper(list[idx]);
+};
+
+const findNewIndex = (
+  target: string,
+  base: string,
+  exclude: number[],
+  index: number = 0
+): number => {
+  const foundIndex = base.indexOf(target, index);
+  if (foundIndex > -1 && exclude[foundIndex]) {
+    return findNewIndex(target, base, exclude, foundIndex + 1);
+  }
+  return foundIndex;
 };
 
 const processGuess = (_guess: string, _answer: string): number[] => {
@@ -32,7 +45,7 @@ const processGuess = (_guess: string, _answer: string): number[] => {
   });
   let tempAnswer: string = _answer.slice();
   Object.entries(leftOverHash).forEach((x) => {
-    const foundIndex = tempAnswer.indexOf(x[1]);
+    const foundIndex = findNewIndex(x[1], tempAnswer, result);
     if (foundIndex >= 0) {
       result[Number(x[0])] = 1;
       tempAnswer =
@@ -42,10 +55,22 @@ const processGuess = (_guess: string, _answer: string): number[] => {
   return result;
 };
 
+const renderDigitStyle = (state: number): string => {
+  if (state === 1) {
+    return "present";
+  }
+  if (state === 2) {
+    return "correct";
+  }
+  return "";
+};
+
 function App() {
   const [answer, setAnswer] = useState<string>(generateAnswer());
   const [guessList, setGuessList] = useState<string[]>([]);
+  const [guessResultList, setGuessResultList] = useState<number[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
+  const pageRef = useRef<HTMLDivElement>(null!);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!e.repeat && isAllowedKey(e.code)) {
@@ -56,10 +81,9 @@ function App() {
             toast.error("Not in word list");
             return;
           }
-          const guessResult = processGuess(currentGuess, answer);
-          setGuessList(R.append(currentGuess + ": " + guessResult));
+          setGuessResultList(R.append(processGuess(currentGuess, answer)));
+          setGuessList(R.append(currentGuess));
           setCurrentGuess("");
-          console.log("finished Enter");
         }
         return;
       }
@@ -79,18 +103,39 @@ function App() {
     setCurrentGuess("");
   };
 
+  useEffect(() => {
+    pageRef.current.focus();
+  }, []);
+
   return (
     <div className="App">
-      <div className="App-header" tabIndex={-1} onKeyDown={handleKeyPress}>
+      <div
+        ref={pageRef}
+        className="App-header"
+        tabIndex={-1}
+        onKeyDown={handleKeyPress}
+      >
         <button onClick={resetGame}>Reset</button>
         <hr />
         <div>Answer: {answer}</div>
         <div>Current Guess:{currentGuess}</div>
-        <div>
+        <div className="guess-list">
           Guess list:
           <ul>
             {guessList.map((x, idx) => (
-              <li key={x + idx}>{x}</li>
+              <li key={x + idx}>
+                {x.split("").map((y, innerIndex) => (
+                  <div
+                    key={y + innerIndex}
+                    className={
+                      "letter " +
+                      renderDigitStyle(guessResultList[idx][innerIndex])
+                    }
+                  >
+                    {y}
+                  </div>
+                ))}
+              </li>
             ))}
           </ul>
         </div>
