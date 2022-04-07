@@ -4,13 +4,11 @@ import * as R from "ramda";
 import list from "./Asset/list";
 import indexedList from "./Asset/indexedList";
 import { toast } from "react-toastify";
-import {
-  processGuess,
-  generateAnswer,
-  isAllowedKey,
-  renderDigitStyle,
-} from "./utils";
+import { processGuess, generateAnswer, isAllowedKey } from "./utils";
 import { GameState } from "./constants/base";
+import GuessList from "./components/GuessList";
+import InformationPanel from "./components/InformationPanel";
+import { Button } from "@mui/material";
 
 function App() {
   const [answer, setAnswer] = useState<string>(generateAnswer(list));
@@ -71,30 +69,12 @@ function App() {
         tabIndex={-1}
         onKeyDown={handleKeyPress}
       >
-        <button onClick={resetGame}>Restart Game</button>
+        <Button variant="contained" onClick={resetGame}>
+          Restart Game
+        </Button>
         <hr />
-        <div>Answer: {answer}</div>
-        <div>Current Guess:{currentGuess}</div>
-        <div className="guess-list">
-          Guess list:
-          <ul>
-            {guessList.map((x, idx) => (
-              <li key={x + idx}>
-                {x.split("").map((y, innerIndex) => (
-                  <div
-                    key={y + innerIndex}
-                    className={
-                      "letter " +
-                      renderDigitStyle(guessResultList[idx][innerIndex])
-                    }
-                  >
-                    {y}
-                  </div>
-                ))}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <InformationPanel answer={answer} currentGuess={currentGuess} />
+        <GuessList guessList={guessList} guessResultList={guessResultList} />
       </div>
     </div>
   );
