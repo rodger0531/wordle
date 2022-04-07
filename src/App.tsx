@@ -10,16 +10,18 @@ import {
   isAllowedKey,
   renderDigitStyle,
 } from "./utils";
+import { GameState } from "./constants/base";
 
 function App() {
   const [answer, setAnswer] = useState<string>(generateAnswer(list));
   const [guessList, setGuessList] = useState<string[]>([]);
   const [guessResultList, setGuessResultList] = useState<number[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
+  const [gameState, setGameState] = useState<GameState>(GameState.PLAYING);
   const pageRef = useRef<HTMLDivElement>(null!);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (!e.repeat && isAllowedKey(e.code)) {
+    if (!e.repeat && isAllowedKey(e.code) && gameState === GameState.PLAYING) {
       if (e.code === "Enter") {
         if (currentGuess.length === 5) {
           const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
@@ -47,11 +49,19 @@ function App() {
     setAnswer(generateAnswer(list));
     setGuessList([]);
     setCurrentGuess("");
+    setGameState(GameState.PLAYING);
   };
 
   useEffect(() => {
     pageRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    if (answer === guessList[guessList.length - 1]) {
+      toast.success("Congratulations! You win!");
+      setGameState(GameState.FINISHED);
+    }
+  }, [answer, guessList]);
 
   return (
     <div className="App">
@@ -61,7 +71,7 @@ function App() {
         tabIndex={-1}
         onKeyDown={handleKeyPress}
       >
-        <button onClick={resetGame}>Reset</button>
+        <button onClick={resetGame}>Restart Game</button>
         <hr />
         <div>Answer: {answer}</div>
         <div>Current Guess:{currentGuess}</div>
