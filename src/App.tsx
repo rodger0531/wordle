@@ -1,72 +1,18 @@
-import React, { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import "./App.css";
 import * as R from "ramda";
 import list from "./Asset/list";
 import indexedList from "./Asset/indexedList";
 import { toast } from "react-toastify";
-
-const isAllowedKey = (key: string): boolean =>
-  key.slice(0, 3) === "Key" || key === "Enter" || key === "Backspace";
-
-const generateAnswer = (): string => {
-  const idx = Math.floor(Math.random() * list.length);
-  return R.toUpper(list[idx]);
-};
-
-const findNewIndex = (
-  target: string,
-  base: string,
-  exclude: number[],
-  index: number = 0
-): number => {
-  const foundIndex = base.indexOf(target, index);
-  if (foundIndex > -1 && exclude[foundIndex]) {
-    return findNewIndex(target, base, exclude, foundIndex + 1);
-  }
-  return foundIndex;
-};
-
-const processGuess = (_guess: string, _answer: string): number[] => {
-  let guess: string[] = _guess.slice().split("");
-  /*
-   * Result array stores the state of each guess digits
-   * 0 - Wrong guess
-   * 1 - Correct guess, wrong position
-   * 2 - All correct
-   */
-  let result: number[] = [0, 0, 0, 0, 0];
-  let leftOverHash: Record<string, string> = {};
-  guess.forEach((x, idx) => {
-    if (x === _answer[idx]) {
-      result[idx] = 2;
-    } else {
-      leftOverHash[idx] = x;
-    }
-  });
-  let tempAnswer: string = _answer.slice();
-  Object.entries(leftOverHash).forEach((x) => {
-    const foundIndex = findNewIndex(x[1], tempAnswer, result);
-    if (foundIndex >= 0) {
-      result[Number(x[0])] = 1;
-      tempAnswer =
-        tempAnswer.slice(0, foundIndex) + tempAnswer.slice(foundIndex + 1);
-    }
-  });
-  return result;
-};
-
-const renderDigitStyle = (state: number): string => {
-  if (state === 1) {
-    return "present";
-  }
-  if (state === 2) {
-    return "correct";
-  }
-  return "";
-};
+import {
+  processGuess,
+  generateAnswer,
+  isAllowedKey,
+  renderDigitStyle,
+} from "./utils";
 
 function App() {
-  const [answer, setAnswer] = useState<string>(generateAnswer());
+  const [answer, setAnswer] = useState<string>(generateAnswer(list));
   const [guessList, setGuessList] = useState<string[]>([]);
   const [guessResultList, setGuessResultList] = useState<number[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
@@ -98,7 +44,7 @@ function App() {
   };
 
   const resetGame = () => {
-    setAnswer(generateAnswer());
+    setAnswer(generateAnswer(list));
     setGuessList([]);
     setCurrentGuess("");
   };
