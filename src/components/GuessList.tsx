@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import React from "react";
+import { amber, lightGreen } from "@mui/material/colors";
 import { renderDigitStyle } from "../utils";
 
 interface IGuessListProps {
@@ -23,15 +23,22 @@ const GuessList = ({ guessList, guessResultList }: IGuessListProps) => {
                   height: 80,
                   padding: 2,
                   margin: 0.5,
+                  borderRadius: 0.5,
                   fontWeight: "bold",
                   backgroundColor: "gray",
+                  color: "white",
+                  "&.present": {
+                    backgroundColor: amber["A400"],
+                  },
+                  "&.correct": {
+                    backgroundColor: lightGreen[700],
+                  },
                 }}
                 elevation={4}
                 key={letter + letterIndex}
-                className={
-                  "letter " +
-                  renderDigitStyle(guessResultList[wordIndex][letterIndex])
-                }
+                className={renderDigitStyle(
+                  guessResultList[wordIndex][letterIndex]
+                )}
               >
                 {letter}
               </Paper>

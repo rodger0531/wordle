@@ -26,11 +26,3 @@
   /* margin: 0.1em 0; */
   font-size: 3rem;
 }
-
-.guess-list .letter.present {
-  background-color: orange;
-}
-
-.guess-list .letter.correct {
-  background-color: green;
-}
