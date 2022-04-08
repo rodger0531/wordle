@@ -1,5 +1,5 @@
 const fs = require("fs");
-const rawData = require("./Asset/words_dictionary.json");
+const rawData = require("./Asset/common_words.json");
 
 const data = Object.keys(rawData).filter((x) => x.length === 5);
 
@@ -8,7 +8,7 @@ generateIndexedList();
 console.log("finished");
 
 function generateList() {
-  var file = fs.createWriteStream("./Asset/list.js");
+  var file = fs.createWriteStream("./Asset/commonList.js");
   file.on("error", function (err) {
     console.log(err);
   });
@@ -33,7 +33,7 @@ function generateIndexedList() {
     }, {})
   ).sort((a, b) => a[0][0].localeCompare(b[0][0]));
 
-  var file = fs.createWriteStream("./Asset/indexedList.js");
+  var file = fs.createWriteStream("./Asset/commonIndexedList.js");
   file.on("error", function (err) {
     console.log(err);
   });
