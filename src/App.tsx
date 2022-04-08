@@ -1,8 +1,8 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import "./App.css";
 import * as R from "ramda";
-import list from "./Asset/list";
-import indexedList from "./Asset/indexedList";
+import list from "./Asset/commonList";
+import indexedList from "./Asset/commonIndexedList";
 import { toast } from "react-toastify";
 import { processGuess, generateAnswer, isAllowedKey } from "./utils";
 import { GameState } from "./constants/base";

@@ -16,7 +16,7 @@ export const findNewIndex = (
   return foundIndex;
 };
 
-export const processGuess = (_guess: string, _answer: string): number[] => {
+export const processGuess = (_guess: string, answer: string): number[] => {
   let guess: string[] = _guess.slice().split("");
   /*
    * Result array stores the state of each guess digits
@@ -27,13 +27,13 @@ export const processGuess = (_guess: string, _answer: string): number[] => {
   let result: number[] = [0, 0, 0, 0, 0];
   let leftOverHash: Record<string, string> = {};
   guess.forEach((x, idx) => {
-    if (x === _answer[idx]) {
+    if (x === answer[idx]) {
       result[idx] = 2;
     } else {
       leftOverHash[idx] = x;
     }
   });
-  let tempAnswer: string = _answer.slice();
+  let tempAnswer: string = answer.slice();
   Object.entries(leftOverHash).forEach((x) => {
     const foundIndex = findNewIndex(x[1], tempAnswer, result);
     if (foundIndex >= 0) {

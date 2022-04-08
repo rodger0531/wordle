@@ -1,5 +1,4 @@
 import { Paper } from "@mui/material";
-import { amber, lightGreen } from "@mui/material/colors";
 import { renderDigitStyle } from "../utils";
 
 interface IGuessListProps {
@@ -19,19 +18,19 @@ const GuessList = ({ guessList, guessResultList }: IGuessListProps) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: 80,
-                  height: 80,
+                  width: 75,
+                  height: 75,
                   padding: 2,
-                  margin: 0.5,
+                  margin: 0.4,
                   borderRadius: 0.5,
                   fontWeight: "bold",
                   backgroundColor: "gray",
                   color: "white",
                   "&.present": {
-                    backgroundColor: amber["A400"],
+                    backgroundColor: "#b59f3b",
                   },
                   "&.correct": {
-                    backgroundColor: lightGreen[700],
+                    backgroundColor: "#538d4e",
                   },
                 }}
                 elevation={4}
