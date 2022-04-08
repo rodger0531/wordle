@@ -1,12 +1,12 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import "./App.css";
 import * as R from "ramda";
-import list from "./Asset/commonList";
-import indexedList from "./Asset/commonIndexedList";
+import list from "./Asset/list";
+import indexedList from "./Asset/indexedList";
 import { toast } from "react-toastify";
 import { processGuess, generateAnswer, isAllowedKey } from "./utils";
-import { GameState } from "./constants/base";
-import GuessList from "./components/GuessList";
+import { ALLOWED_GUESSES, GameState, WORD_LENGTH } from "./constants/base";
+import Board from "./components/Board";
 import InformationPanel from "./components/InformationPanel";
 import { Button } from "@mui/material";
 
@@ -15,6 +15,9 @@ function App() {
   const [guessList, setGuessList] = useState<string[]>([]);
   const [guessResultList, setGuessResultList] = useState<number[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
+  const [displayList, setDisplayList] = useState<string[][]>(
+    new Array(ALLOWED_GUESSES).fill(new Array(WORD_LENGTH).fill(""))
+  );
   const [gameState, setGameState] = useState<GameState>(GameState.PLAYING);
   const pageRef = useRef<HTMLDivElement>(null!);
 
@@ -47,19 +50,46 @@ function App() {
     setAnswer(generateAnswer(list));
     setGuessList([]);
     setCurrentGuess("");
+    setGuessResultList([]);
+    setDisplayList(
+      new Array(ALLOWED_GUESSES).fill(new Array(WORD_LENGTH).fill(""))
+    );
     setGameState(GameState.PLAYING);
   };
 
+  // Focus on page when game starts, allowing user to start typing
   useEffect(() => {
     pageRef.current.focus();
-  }, []);
+  }, [gameState]);
 
+  // Determine game state
   useEffect(() => {
     if (answer === guessList[guessList.length - 1]) {
       toast.success("Congratulations! You win!");
       setGameState(GameState.FINISHED);
+    } else if (guessList.length >= ALLOWED_GUESSES) {
+      toast.error("You lose! The answer is " + answer);
+      setGameState(GameState.FINISHED);
     }
   }, [answer, guessList]);
+
+  // Update display list
+  useEffect(() => {
+    if (gameState === GameState.PLAYING && guessList.length < ALLOWED_GUESSES) {
+      const listLength = guessList.length;
+
+      setDisplayList((prev) =>
+        prev.map((word, wordIndex) => {
+          if (wordIndex === listLength) {
+            return currentGuess
+              ? currentGuess.padEnd(WORD_LENGTH).split("")
+              : word;
+          }
+          return word;
+        })
+      );
+    }
+  }, [guessList, currentGuess, gameState]);
 
   return (
     <div className="App">
@@ -73,8 +103,12 @@ function App() {
           Restart Game
         </Button>
         <hr />
-        <InformationPanel answer={answer} currentGuess={currentGuess} />
-        <GuessList guessList={guessList} guessResultList={guessResultList} />
+        <InformationPanel answer={answer} />
+        <Board
+          displayList={displayList}
+          guessResultList={guessResultList}
+          currentGuess={currentGuess}
+        />
       </div>
     </div>
   );

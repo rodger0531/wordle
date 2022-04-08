@@ -45,12 +45,15 @@ export const processGuess = (_guess: string, answer: string): number[] => {
   return result;
 };
 
-export const renderDigitStyle = (state: number): string => {
+export const renderDigitStyle = (state?: number): string => {
   if (state === 1) {
     return DigitStyle.PRESENT;
   }
   if (state === 2) {
     return DigitStyle.CORRECT;
+  }
+  if (state === undefined) {
+    return DigitStyle.EMPTY;
   }
   return "";
 };
