@@ -1,5 +1,5 @@
 const fs = require("fs");
-const rawData = require("./Asset/common_words.json");
+const rawData = require("./Asset/wordle_words.json");
 
 const data = Object.keys(rawData).filter((x) => x.length === 5);
 
