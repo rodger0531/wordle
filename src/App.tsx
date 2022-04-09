@@ -103,7 +103,7 @@ function App() {
     <div className="App">
       <div
         ref={pageRef}
-        className="App-header"
+        className="App-header p-2"
         tabIndex={-1}
         onKeyDown={handleKeyPress}
       >
