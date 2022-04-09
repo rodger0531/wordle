@@ -9,6 +9,7 @@ import { ALLOWED_GUESSES, GameState, WORD_LENGTH } from "./constants/base";
 import Board from "./components/Board";
 import InformationPanel from "./components/InformationPanel";
 import { Button } from "@mui/material";
+import VirtualKeyboard from "./components/VirtualKeyboard";
 
 function App() {
   const [answer, setAnswer] = useState<string>(generateAnswer(list));
@@ -23,26 +24,33 @@ function App() {
 
   const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!e.repeat && isAllowedKey(e.code) && gameState === GameState.PLAYING) {
-      if (e.code === "Enter") {
-        if (currentGuess.length === 5) {
-          const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
-          if (indexedList[idx].indexOf(R.toLower(currentGuess)) < 0) {
-            toast.error("Not in word list");
-            return;
-          }
-          setGuessResultList(R.append(processGuess(currentGuess, answer)));
-          setGuessList(R.append(currentGuess));
-          setCurrentGuess("");
+      processKey(e.code.replace("Key", ""));
+    }
+  };
+
+  const processKey = (key: string) => {
+    console.log("🚀 ~ file: App.tsx ~ line 32 ~ processKey ~ key", key);
+    if (key === "Enter") {
+      if (currentGuess.length === 5) {
+        const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
+        if (indexedList[idx].indexOf(R.toLower(currentGuess)) < 0) {
+          toast.error("Not in word list");
+          return;
         }
-        return;
+        setGuessResultList(R.append(processGuess(currentGuess, answer)));
+        setGuessList(R.append(currentGuess));
+        setCurrentGuess("");
+      } else {
+        toast.error("Not enough letters");
       }
-      if (e.code === "Backspace") {
-        setCurrentGuess(R.slice(0, -1));
-        return;
-      }
-      if (currentGuess.length < 5) {
-        setCurrentGuess(R.flip(R.concat)(e.code.slice(3)));
-      }
+      return;
+    }
+    if (key === "Backspace") {
+      setCurrentGuess(R.slice(0, -1));
+      return;
+    }
+    if (currentGuess.length < 5) {
+      setCurrentGuess(R.flip(R.concat)(key));
     }
   };
 
@@ -109,6 +117,7 @@ function App() {
           guessResultList={guessResultList}
           currentGuess={currentGuess}
         />
+        <VirtualKeyboard processKey={processKey} />
       </div>
     </div>
   );

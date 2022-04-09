@@ -1,0 +1,28 @@
+.simple-keyboard {
+  /* max-width: 800px; */
+}
+
+.simple-keyboard.myTheme1 {
+  background-color: #282c34;
+  border-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.simple-keyboard.myTheme1 .hg-button {
+  height: 70px;
+  max-width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #757575;
+  color: white;
+}
+
+.simple-keyboard .hg-button.operation-keys {
+  min-width: 100px;
+}
+
+.simple-keyboard .hg-row {
+  justify-content: center;
+}
