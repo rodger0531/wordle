@@ -4,14 +4,19 @@ import * as R from "ramda";
 import list from "./Asset/commonList";
 import indexedList from "./Asset/indexedList";
 import { toast } from "react-toastify";
-import { processGuess, generateAnswer, isAllowedKey } from "./utils";
+import {
+  processGuess,
+  generateAnswer,
+  isAllowedKey,
+  blockComboKey,
+} from "./utils";
 import { ALLOWED_GUESSES, GameState, WORD_LENGTH } from "./constants/base";
 import Board from "./components/Board";
 import { Button } from "@mui/material";
 import VirtualKeyboard from "./components/VirtualKeyboard";
 
 function App() {
-  const [answer, setAnswer] = useState<string>("BROAD");
+  const [answer, setAnswer] = useState<string>(generateAnswer(list));
   const [guessList, setGuessList] = useState<string[]>([]);
   const [guessResultList, setGuessResultList] = useState<number[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
@@ -22,7 +27,12 @@ function App() {
   const pageRef = useRef<HTMLDivElement>(null!);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (!e.repeat && isAllowedKey(e.code) && gameState === GameState.PLAYING) {
+    if (
+      !e.repeat &&
+      isAllowedKey(e.code) &&
+      blockComboKey(e) &&
+      gameState === GameState.PLAYING
+    ) {
       processKey(e.code.replace("Key", ""));
     }
   };

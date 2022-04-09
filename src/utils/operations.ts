@@ -1,4 +1,5 @@
 import { DigitStyle } from "../constants/base";
+import { KeyboardEvent } from "react";
 
 export const isAllowedKey = (key: string): boolean =>
   key.slice(0, 3) === "Key" || key === "Enter" || key === "Backspace";
@@ -55,4 +56,8 @@ export const renderDigitStyle = (state?: number): string => {
     return DigitStyle.EMPTY;
   }
   return "";
+};
+
+export const blockComboKey = (e: KeyboardEvent<HTMLDivElement>) => {
+  return !(e.altKey || e.ctrlKey || e.metaKey);
 };
