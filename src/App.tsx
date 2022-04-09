@@ -112,11 +112,7 @@ function App() {
         </Button>
         <hr />
         <InformationPanel answer={answer} />
-        <Board
-          displayList={displayList}
-          guessResultList={guessResultList}
-          currentGuess={currentGuess}
-        />
+        <Board displayList={displayList} guessResultList={guessResultList} />
         <VirtualKeyboard processKey={processKey} />
       </div>
     </div>

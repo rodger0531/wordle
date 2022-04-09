@@ -1,5 +1,5 @@
 .simple-keyboard {
-  /* max-width: 800px; */
+  margin: 8px 8px;
 }
 
 .simple-keyboard.myTheme1 {
@@ -10,8 +10,8 @@
 }
 
 .simple-keyboard.myTheme1 .hg-button {
-  height: 70px;
-  max-width: 60px;
+  @apply sm:h-16 sm:w-12 h-12 w-8 grow-0 text-lg;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,7 +20,7 @@
 }
 
 .simple-keyboard .hg-button.operation-keys {
-  min-width: 100px;
+  @apply sm:w-24 w-16;
 }
 
 .simple-keyboard .hg-row {

@@ -9,7 +9,7 @@ interface IGameRowProps {
 
 const GameRow = ({ guessResultList, word, wordIndex }: IGameRowProps) => {
   return (
-    <>
+    <div className="grid grid-cols-5 gap-1">
       {word.map((letter, letterIndex) => {
         return (
           <GameTile
@@ -21,7 +21,7 @@ const GameRow = ({ guessResultList, word, wordIndex }: IGameRowProps) => {
           />
         );
       })}
-    </>
+    </div>
   );
 };
 

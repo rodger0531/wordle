@@ -18,19 +18,18 @@ const GameTile = ({
   return (
     <Paper
       sx={{
-        display: "flex",
+        display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        width: 80,
-        height: 80,
-        padding: 2,
-        margin: 0.4,
         borderRadius: 0.5,
         fontWeight: "bold",
         border: 3,
         borderColor: grey[800],
         backgroundColor: "gray",
         color: "white",
+        width: "68px",
+        height: "68px",
+        fontSize: "2.25rem",
         "&.present": {
           backgroundColor: "#b59f3b",
         },
@@ -43,6 +42,7 @@ const GameTile = ({
       }}
       elevation={0}
       key={letterIndex}
+      // style={{ width: "100%", lineHeight: "2rem" }}
       className={renderDigitStyle(guessResultList[wordIndex]?.[letterIndex])}
     >
       {letter}

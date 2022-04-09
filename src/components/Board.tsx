@@ -1,33 +1,27 @@
-import { useEffect, useState } from "react";
-import { GameState } from "../constants/base";
 import GameRow from "./GameRow";
 
 interface IGuessListProps {
   displayList: string[][];
   guessResultList: number[][];
-  currentGuess: string;
 }
 
-const Board = ({
-  displayList,
-  guessResultList,
-  currentGuess,
-}: IGuessListProps) => {
+const Board = ({ displayList, guessResultList }: IGuessListProps) => {
   return (
-    <div className="guess-list">
-      <ul>
+    <div
+      className="flex grow items-center"
+      style={{ width: "350px", userSelect: "none" }}
+    >
+      <div className="grid grid-rows-6 gap-1">
         {displayList.map((word, wordIndex) => {
           return (
-            <li key={word.join("") + wordIndex}>
-              <GameRow
-                guessResultList={guessResultList}
-                word={word}
-                wordIndex={wordIndex}
-              />
-            </li>
+            <GameRow
+              guessResultList={guessResultList}
+              word={word}
+              wordIndex={wordIndex}
+            />
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 };

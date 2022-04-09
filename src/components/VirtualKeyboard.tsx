@@ -26,6 +26,10 @@ const VirtualKeyboard = ({
       class: "operation-keys",
       buttons: "{Enter} {Backspace}",
     },
+    // {
+    //   class: "h-28",
+    //   buttons: "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M",
+    // },
   ];
   const onKeyPress = (button: string) => {
     processKey(button.replace(/^{|}$/g, ""));
@@ -37,6 +41,7 @@ const VirtualKeyboard = ({
       theme={"hg-theme-default myTheme1"}
       display={keysDisplay}
       buttonTheme={buttonTheme}
+      keyboardDOMClass={"test"}
     />
   );
 };
