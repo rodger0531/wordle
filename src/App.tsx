@@ -29,16 +29,15 @@ function App() {
   };
 
   const processKey = (key: string) => {
-    console.log("🚀 ~ file: App.tsx ~ line 32 ~ processKey ~ key", key);
     if (key === "Enter") {
       if (currentGuess.length === 5) {
         const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
-        const _currentGuess = currentGuess.slice();
-        setCurrentGuess("");
-        if (indexedList[idx].indexOf(R.toLower(_currentGuess)) < 0) {
+        if (indexedList[idx].indexOf(R.toLower(currentGuess)) < 0) {
           toast.error("Not in word list");
           return;
         }
+        const _currentGuess = currentGuess.slice();
+        setCurrentGuess("");
         setGuessResultList(R.append(processGuess(_currentGuess, answer)));
         setGuessList(R.append(_currentGuess));
       } else {
@@ -89,7 +88,7 @@ function App() {
 
       setDisplayList((prev) =>
         prev.map((word, wordIndex) => {
-          if (wordIndex === listLength && currentGuess) {
+          if (wordIndex === listLength) {
             return currentGuess.padEnd(WORD_LENGTH).split("");
           }
           return word;
