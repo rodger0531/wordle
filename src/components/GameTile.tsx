@@ -30,6 +30,7 @@ const GameTile = ({
         width: "68px",
         height: "68px",
         fontSize: "2.25rem",
+        transition: "all 0.3s ease-in-out",
         "&.present": {
           backgroundColor: "#b59f3b",
         },
