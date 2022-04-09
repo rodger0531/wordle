@@ -36,10 +36,9 @@ function App() {
           toast.error("Not in word list");
           return;
         }
-        const _currentGuess = currentGuess.slice();
+        setGuessResultList(R.append(processGuess(currentGuess, answer)));
+        setGuessList(R.append(currentGuess));
         setCurrentGuess("");
-        setGuessResultList(R.append(processGuess(_currentGuess, answer)));
-        setGuessList(R.append(_currentGuess));
       } else {
         toast.error("Not enough letters");
       }
@@ -88,7 +87,7 @@ function App() {
 
       setDisplayList((prev) =>
         prev.map((word, wordIndex) => {
-          if (wordIndex === listLength && currentGuess) {
+          if (wordIndex === listLength) {
             return currentGuess.padEnd(WORD_LENGTH).split("");
           }
           return word;
