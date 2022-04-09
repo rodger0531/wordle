@@ -88,7 +88,7 @@ function App() {
 
       setDisplayList((prev) =>
         prev.map((word, wordIndex) => {
-          if (wordIndex === listLength) {
+          if (wordIndex === listLength && currentGuess) {
             return currentGuess.padEnd(WORD_LENGTH).split("");
           }
           return word;
