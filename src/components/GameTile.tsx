@@ -42,7 +42,6 @@ const GameTile = ({
       }}
       elevation={0}
       key={letterIndex}
-      // style={{ width: "100%", lineHeight: "2rem" }}
       className={renderDigitStyle(guessResultList[wordIndex]?.[letterIndex])}
     >
       {letter}

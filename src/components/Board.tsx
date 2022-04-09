@@ -15,6 +15,7 @@ const Board = ({ displayList, guessResultList }: IGuessListProps) => {
         {displayList.map((word, wordIndex) => {
           return (
             <GameRow
+              key={word.join("") + wordIndex}
               guessResultList={guessResultList}
               word={word}
               wordIndex={wordIndex}
