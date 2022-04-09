@@ -3,7 +3,7 @@ import { DigitStyle } from "../constants/base";
 export const isAllowedKey = (key: string): boolean =>
   key.slice(0, 3) === "Key" || key === "Enter" || key === "Backspace";
 
-export const findNewIndex = (
+const findNewIndex = (
   target: string,
   base: string,
   exclude: number[],
@@ -16,7 +16,7 @@ export const findNewIndex = (
   return foundIndex;
 };
 
-export const processGuess = (_guess: string, answer: string): number[] => {
+export const processGuess = (_guess: string, _answer: string): number[] => {
   let guess: string[] = _guess.slice().split("");
   /*
    * Result array stores the state of each guess digits
@@ -27,19 +27,18 @@ export const processGuess = (_guess: string, answer: string): number[] => {
   let result: number[] = [0, 0, 0, 0, 0];
   let leftOverHash: Record<string, string> = {};
   guess.forEach((x, idx) => {
-    if (x === answer[idx]) {
+    if (x === _answer[idx]) {
       result[idx] = 2;
     } else {
       leftOverHash[idx] = x;
     }
   });
-  let tempAnswer: string = answer.slice();
+  let answer: string = _answer.slice();
   Object.entries(leftOverHash).forEach((x) => {
-    const foundIndex = findNewIndex(x[1], tempAnswer, result);
+    const foundIndex = findNewIndex(x[1], answer, result);
     if (foundIndex >= 0) {
       result[Number(x[0])] = 1;
-      tempAnswer =
-        tempAnswer.slice(0, foundIndex) + tempAnswer.slice(foundIndex + 1);
+      answer = answer.slice(0, foundIndex) + "-" + answer.slice(foundIndex + 1);
     }
   });
   return result;

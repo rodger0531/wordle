@@ -2,17 +2,16 @@ import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import "./App.css";
 import * as R from "ramda";
 import list from "./Asset/commonList";
-import indexedList from "./Asset/commonIndexedList";
+import indexedList from "./Asset/indexedList";
 import { toast } from "react-toastify";
 import { processGuess, generateAnswer, isAllowedKey } from "./utils";
 import { ALLOWED_GUESSES, GameState, WORD_LENGTH } from "./constants/base";
 import Board from "./components/Board";
-import InformationPanel from "./components/InformationPanel";
 import { Button } from "@mui/material";
 import VirtualKeyboard from "./components/VirtualKeyboard";
 
 function App() {
-  const [answer, setAnswer] = useState<string>(generateAnswer(list));
+  const [answer, setAnswer] = useState<string>("BROAD");
   const [guessList, setGuessList] = useState<string[]>([]);
   const [guessResultList, setGuessResultList] = useState<number[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
@@ -69,6 +68,10 @@ function App() {
     pageRef.current.focus();
   }, [gameState]);
 
+  useEffect(() => {
+    console.log("Answer: ", answer);
+  }, [answer]);
+
   // Determine game state
   useEffect(() => {
     if (answer === guessList[guessList.length - 1]) {
@@ -107,8 +110,6 @@ function App() {
         <Button variant="contained" onClick={resetGame}>
           Restart Game
         </Button>
-        <hr />
-        <InformationPanel answer={answer} />
         <Board displayList={displayList} guessResultList={guessResultList} />
         <VirtualKeyboard processKey={processKey} />
       </div>
