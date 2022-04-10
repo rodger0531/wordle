@@ -118,7 +118,11 @@ function App() {
           Restart Game
         </Button>
         <Board displayList={displayList} guessResultList={guessResultList} />
-        <VirtualKeyboard processKey={processKey} />
+        <VirtualKeyboard
+          processKey={processKey}
+          guessList={guessList}
+          guessResultList={guessResultList}
+        />
       </div>
     </div>
   );

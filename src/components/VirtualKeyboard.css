@@ -17,6 +17,7 @@
   align-items: center;
   background: #757575;
   color: white;
+  border-bottom: none;
 }
 
 .simple-keyboard .hg-button.operation-keys {
@@ -25,4 +26,16 @@
 
 .simple-keyboard .hg-row {
   justify-content: center;
+}
+
+.simple-keyboard .hg-button.correct {
+  background-color: #538d4e;
+}
+
+.simple-keyboard .hg-button.present {
+  background-color: #b59f3b;
+}
+
+.simple-keyboard .hg-button.absent {
+  background-color: #3a3a3c;
 }

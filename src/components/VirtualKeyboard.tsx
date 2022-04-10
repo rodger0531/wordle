@@ -1,45 +1,59 @@
-import React from "react";
+import { useEffect, useMemo, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
+import { DigitStyle } from "../constants/base";
+import { DEFAULT_KEYBOARD_LAYOUT, KEYS_DISPLAY } from "../constants/keyboard";
+import { generateButtonTheme, generateKeyClasses } from "../utils/keyboard";
 import "./VirtualKeyboard.css";
+
+type KeyClasses = DigitStyle.CORRECT | DigitStyle.PRESENT | DigitStyle.ABSENT;
+
+export type KeyClasesType = Record<KeyClasses, string[]>;
+
+export interface VirtualKeyboardProps {
+  processKey: (key: string) => void;
+  guessList: string[];
+  guessResultList: number[][];
+}
 
 const VirtualKeyboard = ({
   processKey,
-}: {
-  processKey: (key: string) => void;
-}) => {
-  const defaultLayout = {
-    default: [
-      "Q W E R T Y U I O P",
-      "A S D F G H J K L",
-      "{Enter} Z X C V B N M {Backspace}",
+  guessList,
+  guessResultList,
+}: VirtualKeyboardProps) => {
+  const [keyClasses, setKeyClasses] = useState<KeyClasesType>({
+    correct: [],
+    present: [],
+    absent: [],
+  });
+
+  useEffect(() => {
+    if (guessList.length === guessResultList.length) {
+      setKeyClasses(generateKeyClasses({ guessResultList, guessList }));
+    }
+  }, [guessList, guessResultList]);
+
+  const buttonTheme = useMemo(
+    () => [
+      {
+        class: "operation-keys",
+        buttons: "{Enter} {Backspace}",
+      },
+      ...generateButtonTheme(keyClasses),
     ],
-  };
+    [keyClasses]
+  );
 
-  const keysDisplay = {
-    "{Backspace}": "⌫",
-    "{Enter}": "Enter",
-  };
-
-  const buttonTheme = [
-    {
-      class: "operation-keys",
-      buttons: "{Enter} {Backspace}",
-    },
-    // {
-    //   class: "h-28",
-    //   buttons: "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M",
-    // },
-  ];
   const onKeyPress = (button: string) => {
     processKey(button.replace(/^{|}$/g, ""));
   };
+
   return (
     <Keyboard
       onKeyPress={onKeyPress}
-      layout={defaultLayout}
+      layout={DEFAULT_KEYBOARD_LAYOUT}
       theme={"hg-theme-default myTheme1"}
-      display={keysDisplay}
+      display={KEYS_DISPLAY}
       buttonTheme={buttonTheme}
       keyboardDOMClass={"test"}
     />

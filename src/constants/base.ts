@@ -2,6 +2,7 @@ export enum DigitStyle {
   PRESENT = "present",
   CORRECT = "correct",
   EMPTY = "empty",
+  ABSENT = "absent",
 }
 
 export enum GameState {
