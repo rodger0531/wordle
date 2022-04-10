@@ -26,8 +26,6 @@ const GameTile = ({
         backgroundColor: "gray",
         borderColor: grey[800],
         color: "white",
-        // width: "68px",
-        // height: "68px",
         fontSize: "2.25rem",
         transition: "all 0.3s ease-in-out",
         "&.present": {
