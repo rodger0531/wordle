@@ -27,38 +27,35 @@ function App() {
   const pageRef = useRef<HTMLDivElement>(null!);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (
-      !e.repeat &&
-      isAllowedKey(e.code) &&
-      blockComboKey(e) &&
-      gameState === GameState.PLAYING
-    ) {
+    if (!e.repeat && isAllowedKey(e.code) && blockComboKey(e)) {
       processKey(e.code.replace("Key", ""));
     }
   };
 
   const processKey = (key: string) => {
-    if (key === "Enter") {
-      if (currentGuess.length === 5) {
-        const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
-        if (indexedList[idx].indexOf(R.toLower(currentGuess)) < 0) {
-          toast.error("Not in word list");
-          return;
+    if (gameState === GameState.PLAYING) {
+      if (key === "Enter") {
+        if (currentGuess.length === 5) {
+          const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
+          if (indexedList[idx].indexOf(R.toLower(currentGuess)) < 0) {
+            toast.error("Not in word list");
+            return;
+          }
+          setGuessResultList(R.append(processGuess(currentGuess, answer)));
+          setGuessList(R.append(currentGuess));
+          setCurrentGuess("");
+        } else {
+          toast.error("Not enough letters");
         }
-        setGuessResultList(R.append(processGuess(currentGuess, answer)));
-        setGuessList(R.append(currentGuess));
-        setCurrentGuess("");
-      } else {
-        toast.error("Not enough letters");
+        return;
       }
-      return;
-    }
-    if (key === "Backspace") {
-      setCurrentGuess(R.slice(0, -1));
-      return;
-    }
-    if (currentGuess.length < 5) {
-      setCurrentGuess(R.flip(R.concat)(key));
+      if (key === "Backspace") {
+        setCurrentGuess(R.slice(0, -1));
+        return;
+      }
+      if (currentGuess.length < 5) {
+        setCurrentGuess(R.flip(R.concat)(key));
+      }
     }
   };
 
@@ -107,7 +104,8 @@ function App() {
         })
       );
     }
-  }, [guessList, currentGuess, gameState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentGuess, gameState]);
 
   return (
     <div className="App">
