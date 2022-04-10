@@ -9,9 +9,9 @@ const Board = ({ displayList, guessResultList }: IGuessListProps) => {
   return (
     <div
       className="flex grow items-center"
-      style={{ width: "350px", userSelect: "none" }}
+      style={{ maxWidth: "380px", userSelect: "none" }}
     >
-      <div className="grid grid-rows-6 gap-1">
+      <div className="grid grid-rows-6 gap-1 sm:gap-2">
         {displayList.map((word, wordIndex) => {
           return (
             <GameRow

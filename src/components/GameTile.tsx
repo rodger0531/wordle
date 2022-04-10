@@ -23,12 +23,11 @@ const GameTile = ({
         justifyContent: "center",
         borderRadius: 0.5,
         fontWeight: "bold",
-        border: 3,
-        borderColor: grey[800],
         backgroundColor: "gray",
+        borderColor: grey[800],
         color: "white",
-        width: "68px",
-        height: "68px",
+        // width: "68px",
+        // height: "68px",
         fontSize: "2.25rem",
         transition: "all 0.3s ease-in-out",
         "&.present": {
@@ -39,11 +38,16 @@ const GameTile = ({
         },
         "&.empty": {
           backgroundColor: "#282c34",
+          border: 3,
+          borderColor: grey[800],
         },
       }}
       elevation={0}
       key={letterIndex}
-      className={renderDigitStyle(guessResultList[wordIndex]?.[letterIndex])}
+      className={
+        renderDigitStyle(guessResultList[wordIndex]?.[letterIndex]) +
+        " h-15 w-15 sm:h-17 sm:w-17"
+      }
     >
       {letter}
     </Paper>
