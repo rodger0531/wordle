@@ -27,7 +27,7 @@ const GameTile = ({
         borderColor: grey[800],
         color: "white",
         fontSize: "2.25rem",
-        transition: "all 0.3s ease-in-out",
+        transition: "background-color 0.3s ease-in-out",
         "&.present": {
           backgroundColor: "#b59f3b",
         },
@@ -36,7 +36,7 @@ const GameTile = ({
         },
         "&.empty": {
           backgroundColor: "#282c34",
-          border: 3,
+          border: 2,
           borderColor: grey[800],
         },
       }}
@@ -44,7 +44,7 @@ const GameTile = ({
       key={letterIndex}
       className={
         renderDigitStyle(guessResultList[wordIndex]?.[letterIndex]) +
-        " h-15 w-15 sm:h-17 sm:w-17"
+        " h-15 w-15 sm:h-18 sm:w-18"
       }
     >
       {letter}
