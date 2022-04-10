@@ -82,10 +82,21 @@ function App() {
   // Determine game state
   useEffect(() => {
     if (answer === guessList[guessList.length - 1]) {
-      toast.success("Congratulations! You win!");
+      const numberofGuesses = guessList.length;
+      if (numberofGuesses === 1) {
+        toast.success("That was INSANE! You got it in 1 guess!");
+      } else if (numberofGuesses === 2) {
+        toast.success("That was AWESOME! You got it in 2 guesses!");
+      } else if (numberofGuesses === 3) {
+        toast.success("That was GOOD! You got it in 3 guesses!");
+      } else {
+        toast.success(
+          "Not bad! You got it in " + numberofGuesses + " guesses!"
+        );
+      }
       setGameState(GameState.FINISHED);
     } else if (guessList.length >= ALLOWED_GUESSES) {
-      toast.error("You lose! The answer is " + answer);
+      toast.error("Too bad :( The answer is " + answer);
       setGameState(GameState.FINISHED);
     }
   }, [answer, guessList]);
