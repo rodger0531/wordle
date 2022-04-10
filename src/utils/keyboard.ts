@@ -13,14 +13,21 @@ export const generateKeyClasses =
     const newKeyClasses = { ...previousKeyClasses };
     guessResultList.forEach((row, rowIndex) => {
       row.forEach((result, colIndex) => {
-        if (result === 1) {
-          newKeyClasses.present.push(guessList[rowIndex][colIndex]);
-        }
-        if (result === 2) {
-          newKeyClasses.correct.push(guessList[rowIndex][colIndex]);
-        }
-        if (result === 0) {
-          newKeyClasses.absent.push(guessList[rowIndex][colIndex]);
+        const letter = guessList[rowIndex][colIndex];
+        if (result === 2 && !newKeyClasses.correct.includes(letter)) {
+          const presentIndex = newKeyClasses.present.indexOf(letter);
+          if (presentIndex > -1) {
+            newKeyClasses.present.splice(presentIndex, 1);
+          }
+          newKeyClasses.correct.push(letter);
+        } else if (
+          result === 1 &&
+          !newKeyClasses.present.includes(letter) &&
+          !newKeyClasses.correct.includes(letter)
+        ) {
+          newKeyClasses.present.push(letter);
+        } else if (result === 0 && !newKeyClasses.absent.includes(letter)) {
+          newKeyClasses.absent.push(letter);
         }
       });
     });
