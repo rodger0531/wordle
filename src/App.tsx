@@ -94,7 +94,6 @@ function App() {
   useEffect(() => {
     if (gameState === GameState.PLAYING && guessList.length < ALLOWED_GUESSES) {
       const listLength = guessList.length;
-
       setDisplayList((prev) =>
         prev.map((word, wordIndex) => {
           if (wordIndex === listLength) {

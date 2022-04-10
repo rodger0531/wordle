@@ -4,21 +4,7 @@ import { KeyboardEvent } from "react";
 export const isAllowedKey = (key: string): boolean =>
   key.slice(0, 3) === "Key" || key === "Enter" || key === "Backspace";
 
-const findNewIndex = (
-  target: string,
-  base: string,
-  exclude: number[],
-  index: number = 0
-): number => {
-  const foundIndex = base.indexOf(target, index);
-  if (foundIndex > -1 && exclude[foundIndex]) {
-    return findNewIndex(target, base, exclude, foundIndex + 1);
-  }
-  return foundIndex;
-};
-
-export const processGuess = (_guess: string, _answer: string): number[] => {
-  let guess: string[] = _guess.slice().split("");
+export const processGuess = (guess: string, answer: string): number[] => {
   /*
    * Result array stores the state of each guess digits
    * 0 - Wrong guess
@@ -27,19 +13,25 @@ export const processGuess = (_guess: string, _answer: string): number[] => {
    */
   let result: number[] = [0, 0, 0, 0, 0];
   let leftOverHash: Record<string, string> = {};
-  guess.forEach((x, idx) => {
-    if (x === _answer[idx]) {
+  guess.split("").forEach((x, idx) => {
+    if (x === answer[idx]) {
       result[idx] = 2;
     } else {
       leftOverHash[idx] = x;
     }
   });
-  let answer: string = _answer.slice();
-  Object.entries(leftOverHash).forEach((x) => {
-    const foundIndex = findNewIndex(x[1], answer, result);
+  const leftOver: string[] = Object.keys(leftOverHash);
+  let answersLeft = answer
+    .split("")
+    .map((x, idx) => (leftOver.includes(idx.toString()) ? x : ""))
+    .join("");
+
+  Object.entries(leftOverHash).forEach((letter) => {
+    const foundIndex = answersLeft.indexOf(letter[1]);
     if (foundIndex >= 0) {
-      result[Number(x[0])] = 1;
-      answer = answer.slice(0, foundIndex) + "-" + answer.slice(foundIndex + 1);
+      result[Number(letter[0])] = 1;
+      answersLeft =
+        answersLeft.slice(0, foundIndex) + answersLeft.slice(foundIndex + 1);
     }
   });
   return result;
