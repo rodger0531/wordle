@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
-import { DigitStyle } from "../constants/base";
+import { DigitStyle, GameState } from "../constants/base";
 import { DEFAULT_KEYBOARD_LAYOUT, KEYS_DISPLAY } from "../constants/keyboard";
 import { generateButtonTheme, generateKeyClasses } from "../utils/keyboard";
 import "./VirtualKeyboard.css";
@@ -14,12 +14,14 @@ export interface VirtualKeyboardProps {
   processKey: (key: string) => void;
   guessList: string[];
   guessResultList: number[][];
+  gameState: GameState;
 }
 
 const VirtualKeyboard = ({
   processKey,
   guessList,
   guessResultList,
+  gameState,
 }: VirtualKeyboardProps) => {
   const [keyClasses, setKeyClasses] = useState<KeyClasesType>({
     correct: [],
@@ -29,9 +31,18 @@ const VirtualKeyboard = ({
 
   useEffect(() => {
     if (guessList.length === guessResultList.length) {
-      setKeyClasses(generateKeyClasses({ guessResultList, guessList }));
+      if (guessList.length !== 0) {
+        setKeyClasses(generateKeyClasses({ guessResultList, guessList }));
+      } else {
+        // Reset keyboard key classes on new game
+        setKeyClasses({
+          correct: [],
+          present: [],
+          absent: [],
+        });
+      }
     }
-  }, [guessList, guessResultList]);
+  }, [guessList, guessResultList, gameState]);
 
   const buttonTheme = useMemo(
     () => [

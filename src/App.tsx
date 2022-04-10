@@ -122,6 +122,7 @@ function App() {
           processKey={processKey}
           guessList={guessList}
           guessResultList={guessResultList}
+          gameState={gameState}
         />
       </div>
     </div>
