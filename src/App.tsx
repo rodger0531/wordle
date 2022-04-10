@@ -9,6 +9,8 @@ import {
   generateAnswer,
   isAllowedKey,
   blockComboKey,
+  generateWinMessages,
+  generateDisplayList,
 } from "./utils";
 import { ALLOWED_GUESSES, GameState, WORD_LENGTH } from "./constants/base";
 import Board from "./components/Board";
@@ -76,26 +78,16 @@ function App() {
   }, [gameState]);
 
   useEffect(() => {
-    console.log("Answer: ", answer);
+    console.log("Don't cheat :) \nAnswer: ", answer);
   }, [answer]);
 
   // Determine game state
   useEffect(() => {
-    if (answer === guessList[guessList.length - 1]) {
-      const numberofGuesses = guessList.length;
-      if (numberofGuesses === 1) {
-        toast.success("That was INSANE! You got it in 1 guess!");
-      } else if (numberofGuesses === 2) {
-        toast.success("That was AWESOME! You got it in 2 guesses!");
-      } else if (numberofGuesses === 3) {
-        toast.success("That was GOOD! You got it in 3 guesses!");
-      } else {
-        toast.success(
-          "Not bad! You got it in " + numberofGuesses + " guesses!"
-        );
-      }
+    const numberOfGuesses = guessList.length;
+    if (answer === guessList[numberOfGuesses - 1]) {
+      generateWinMessages(numberOfGuesses);
       setGameState(GameState.FINISHED);
-    } else if (guessList.length >= ALLOWED_GUESSES) {
+    } else if (numberOfGuesses >= ALLOWED_GUESSES) {
       toast.error("Too bad :( The answer is " + answer);
       setGameState(GameState.FINISHED);
     }
@@ -103,16 +95,9 @@ function App() {
 
   // Update display list
   useEffect(() => {
-    if (gameState === GameState.PLAYING && guessList.length < ALLOWED_GUESSES) {
-      const listLength = guessList.length;
-      setDisplayList((prev) =>
-        prev.map((word, wordIndex) => {
-          if (wordIndex === listLength) {
-            return currentGuess.padEnd(WORD_LENGTH).split("");
-          }
-          return word;
-        })
-      );
+    const listLength = guessList.length;
+    if (gameState === GameState.PLAYING && listLength < ALLOWED_GUESSES) {
+      setDisplayList(generateDisplayList({ listLength, currentGuess }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentGuess, gameState]);

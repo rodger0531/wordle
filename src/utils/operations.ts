@@ -1,4 +1,4 @@
-import { DigitStyle } from "../constants/base";
+import { DigitStyle, WORD_LENGTH } from "../constants/base";
 import { KeyboardEvent } from "react";
 
 export const isAllowedKey = (key: string): boolean =>
@@ -53,3 +53,19 @@ export const renderDigitStyle = (state?: number): string => {
 export const blockComboKey = (e: KeyboardEvent<HTMLDivElement>) => {
   return !(e.altKey || e.ctrlKey || e.metaKey);
 };
+
+export const generateDisplayList =
+  ({
+    listLength,
+    currentGuess,
+  }: {
+    listLength: number;
+    currentGuess: string;
+  }) =>
+  (previousList: string[][]) =>
+    previousList.map((word, wordIndex) => {
+      if (wordIndex === listLength) {
+        return currentGuess.padEnd(WORD_LENGTH).split("");
+      }
+      return word;
+    });

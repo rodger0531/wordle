@@ -3,7 +3,7 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { DigitStyle, GameState } from "../constants/base";
 import { DEFAULT_KEYBOARD_LAYOUT, KEYS_DISPLAY } from "../constants/keyboard";
-import { generateButtonTheme, generateKeyClasses } from "../utils/keyboard";
+import { generateButtonTheme, generateKeyClasses } from "../utils";
 import "./VirtualKeyboard.css";
 
 type KeyClasses = DigitStyle.CORRECT | DigitStyle.PRESENT | DigitStyle.ABSENT;
