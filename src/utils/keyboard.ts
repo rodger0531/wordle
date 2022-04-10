@@ -26,7 +26,12 @@ export const generateKeyClasses =
           !correct.includes(letter)
         ) {
           present.push(letter);
-        } else if (result === 0 && !absent.includes(letter)) {
+        } else if (
+          result === 0 &&
+          !absent.includes(letter) &&
+          !present.includes(letter) &&
+          !correct.includes(letter)
+        ) {
           absent.push(letter);
         }
       });
