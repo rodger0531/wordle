@@ -1,14 +1,18 @@
 const fs = require("fs");
 const rawData = require("./Asset/wordle_words.json");
+const rawData2 = require("./Asset/words_dictionary.json");
 
-const data = Object.keys(rawData).filter((x) => x.length === 5);
+const _data = Object.keys(rawData).filter((x) => x.length === 5);
+const _data2 = Object.keys(rawData2).filter((x) => x.length === 5);
+
+const data = [...new Set([..._data, ..._data2])];
 
 generateList();
 generateIndexedList();
 console.log("finished");
 
 function generateList() {
-  var file = fs.createWriteStream("./Asset/commonList.js");
+  var file = fs.createWriteStream("./Asset/list.js");
   file.on("error", function (err) {
     console.log(err);
   });
@@ -31,9 +35,11 @@ function generateIndexedList() {
       }
       return acc;
     }, {})
-  ).sort((a, b) => a[0][0].localeCompare(b[0][0]));
+  )
+    .sort((a, b) => a[0][0].localeCompare(b[0][0]))
+    .map((x) => x.sort((a, b) => a.localeCompare(b)));
 
-  var file = fs.createWriteStream("./Asset/commonIndexedList.js");
+  var file = fs.createWriteStream("./Asset/indexedList.js");
   file.on("error", function (err) {
     console.log(err);
   });
