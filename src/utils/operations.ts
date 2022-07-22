@@ -11,8 +11,8 @@ export const processGuess = (guess: string, answer: string): number[] => {
    * 1 - Correct guess, wrong position
    * 2 - All correct
    */
-  let result: number[] = [0, 0, 0, 0, 0];
-  let leftOverHash: Record<string, string> = {};
+  const result: number[] = [0, 0, 0, 0, 0];
+  const leftOverHash: Record<string, string> = {};
   guess.split("").forEach((x, idx) => {
     if (x === answer[idx]) {
       result[idx] = 2;
