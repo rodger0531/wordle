@@ -48,8 +48,7 @@ const GameTile = ({
       key={letterIndex}
       className={
         renderDigitStyle(guessResultList[wordIndex]?.[letterIndex]) +
-        (gameState === GameState.FINISHED &&
-        wordIndex === guessResultList.length - 1
+        (gameState === GameState.Win && wordIndex === guessResultList.length - 1
           ? " win-guess"
           : "") +
         " h-15 w-15 sm:h-18 sm:w-18"

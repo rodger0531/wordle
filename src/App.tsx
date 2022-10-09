@@ -25,7 +25,7 @@ function App() {
   const [displayList, setDisplayList] = useState<string[][]>(
     new Array(ALLOWED_GUESSES).fill(new Array(WORD_LENGTH).fill(""))
   );
-  const [gameState, setGameState] = useState<GameState>(GameState.PLAYING);
+  const [gameState, setGameState] = useState<GameState>(GameState.Playing);
   const [guessError, setGuessError] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null!);
 
@@ -43,7 +43,7 @@ function App() {
   };
 
   const processKey = (key: string) => {
-    if (gameState === GameState.PLAYING) {
+    if (gameState === GameState.Playing) {
       if (key === "Enter") {
         if (currentGuess.length === 5) {
           const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
@@ -79,7 +79,7 @@ function App() {
     setDisplayList(
       new Array(ALLOWED_GUESSES).fill(new Array(WORD_LENGTH).fill(""))
     );
-    setGameState(GameState.PLAYING);
+    setGameState(GameState.Playing);
   };
 
   // Focus on page when game starts, allowing user to start typing
@@ -96,17 +96,17 @@ function App() {
     const numberOfGuesses = guessList.length;
     if (answer === guessList[numberOfGuesses - 1]) {
       generateWinMessages(numberOfGuesses);
-      setGameState(GameState.FINISHED);
+      setGameState(GameState.Win);
     } else if (numberOfGuesses >= ALLOWED_GUESSES) {
-      toast.error("Too bad :( The answer is " + answer);
-      setGameState(GameState.FINISHED);
+      toast(answer, { autoClose: false });
+      setGameState(GameState.Lost);
     }
   }, [answer, guessList]);
 
   // Update display list
   useEffect(() => {
     const listLength = guessList.length;
-    if (gameState === GameState.PLAYING && listLength < ALLOWED_GUESSES) {
+    if (gameState === GameState.Playing && listLength < ALLOWED_GUESSES) {
       setDisplayList(generateDisplayList({ listLength, currentGuess }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

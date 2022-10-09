@@ -6,7 +6,7 @@ import { DEFAULT_KEYBOARD_LAYOUT, KEYS_DISPLAY } from "../constants/keyboard";
 import { generateButtonTheme, generateKeyClasses } from "../utils";
 import "./VirtualKeyboard.css";
 
-type KeyClasses = DigitStyle.CORRECT | DigitStyle.PRESENT | DigitStyle.ABSENT;
+type KeyClasses = DigitStyle.Correct | DigitStyle.Present | DigitStyle.Absent;
 
 export type KeyClasesType = Record<KeyClasses, string[]>;
 

@@ -1,13 +1,14 @@
 export enum DigitStyle {
-  PRESENT = "present",
-  CORRECT = "correct",
-  EMPTY = "empty",
-  ABSENT = "absent",
+  Present = "present",
+  Correct = "correct",
+  Empty = "empty",
+  Absent = "absent",
 }
 
 export enum GameState {
-  PLAYING = "PLAYING",
-  FINISHED = "FINISHED",
+  Playing = "PLAYING",
+  Win = "WIN",
+  Lost = "LOST",
 }
 
 export const ALLOWED_GUESSES = 6;

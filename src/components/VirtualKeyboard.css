@@ -10,7 +10,7 @@
 }
 
 .simple-keyboard.myTheme1 .hg-button {
-  @apply sm:h-16 sm:w-12 sm:p-1 p-0.5 h-16 w-8 grow-0 text-lg;
+  @apply sm:h-18 sm:w-14 sm:p-1 p-0.5 h-16 w-10 grow-0 text-lg;
   font-weight: bold;
   display: flex;
   justify-content: center;

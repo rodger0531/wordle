@@ -44,7 +44,7 @@ export const generateButtonTheme = (keyClasses: KeyClasesType) => {
     ...(keyClasses.correct.length > 0
       ? [
           {
-            class: DigitStyle.CORRECT,
+            class: DigitStyle.Correct,
             buttons: keyClasses.correct.join(" "),
           },
         ]
@@ -52,7 +52,7 @@ export const generateButtonTheme = (keyClasses: KeyClasesType) => {
     ...(keyClasses.present.length > 0
       ? [
           {
-            class: DigitStyle.PRESENT,
+            class: DigitStyle.Present,
             buttons: keyClasses.present.join(" "),
           },
         ]
@@ -60,7 +60,7 @@ export const generateButtonTheme = (keyClasses: KeyClasesType) => {
     ...(keyClasses.absent.length > 0
       ? [
           {
-            class: DigitStyle.ABSENT,
+            class: DigitStyle.Absent,
             buttons: keyClasses.absent.join(" "),
           },
         ]

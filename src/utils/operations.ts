@@ -39,13 +39,13 @@ export const processGuess = (guess: string, answer: string): number[] => {
 
 export const renderDigitStyle = (state?: number): string => {
   if (state === 1) {
-    return DigitStyle.PRESENT;
+    return DigitStyle.Present;
   }
   if (state === 2) {
-    return DigitStyle.CORRECT;
+    return DigitStyle.Correct;
   }
   if (state === undefined) {
-    return DigitStyle.EMPTY;
+    return DigitStyle.Empty;
   }
   return "";
 };
