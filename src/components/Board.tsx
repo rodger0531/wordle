@@ -1,11 +1,19 @@
+import { GameState } from "../constants/base";
 import GameRow from "./GameRow";
 
 interface IGuessListProps {
   displayList: string[][];
   guessResultList: number[][];
+  guessError: boolean;
+  gameState: GameState;
 }
 
-const Board = ({ displayList, guessResultList }: IGuessListProps) => {
+const Board = ({
+  displayList,
+  guessResultList,
+  guessError,
+  gameState,
+}: IGuessListProps) => {
   return (
     <div
       className="flex grow items-center"
@@ -19,6 +27,8 @@ const Board = ({ displayList, guessResultList }: IGuessListProps) => {
               guessResultList={guessResultList}
               word={word}
               wordIndex={wordIndex}
+              guessError={guessError}
+              gameState={gameState}
             />
           );
         })}

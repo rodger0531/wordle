@@ -26,12 +26,20 @@ function App() {
     new Array(ALLOWED_GUESSES).fill(new Array(WORD_LENGTH).fill(""))
   );
   const [gameState, setGameState] = useState<GameState>(GameState.PLAYING);
+  const [guessError, setGuessError] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null!);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!e.repeat && isAllowedKey(e.code) && blockComboKey(e)) {
       processKey(e.code.replace("Key", ""));
     }
+  };
+
+  const toggleGuessError = () => {
+    setGuessError(true);
+    setTimeout(() => {
+      setGuessError(false);
+    }, 600);
   };
 
   const processKey = (key: string) => {
@@ -41,6 +49,7 @@ function App() {
           const idx = currentGuess[0].charCodeAt(0) - "A".charCodeAt(0);
           if (indexedList[idx].indexOf(R.toLower(currentGuess)) < 0) {
             toast.error("Not in word list");
+            toggleGuessError();
             return;
           }
           setGuessResultList(R.append(processGuess(currentGuess, answer)));
@@ -48,6 +57,7 @@ function App() {
           setCurrentGuess("");
         } else {
           toast.error("Not enough letters");
+          toggleGuessError();
         }
         return;
       }
@@ -113,7 +123,12 @@ function App() {
         <Button variant="contained" onClick={resetGame}>
           Restart Game
         </Button>
-        <Board displayList={displayList} guessResultList={guessResultList} />
+        <Board
+          displayList={displayList}
+          guessResultList={guessResultList}
+          guessError={guessError}
+          gameState={gameState}
+        />
         <VirtualKeyboard
           processKey={processKey}
           guessList={guessList}
