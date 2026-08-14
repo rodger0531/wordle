@@ -1,3 +1,7 @@
+/* Tailwind v4 needs an explicit reference to resolve `@apply` outside the main
+ * stylesheet. This only imports theme context; it emits no extra CSS. */
+@reference "../index.css";
+
 .simple-keyboard {
   margin: 0 8px;
 }

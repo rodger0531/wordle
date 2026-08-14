@@ -1,4 +1,3 @@
-import React from "react";
 import { GameState } from "../constants/base";
 import GameTile from "./GameTile";
 

@@ -1,4 +1,4 @@
-import {
+import type {
   KeyClasesType,
   VirtualKeyboardProps,
 } from "../components/VirtualKeyboard";

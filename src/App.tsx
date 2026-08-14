@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import "./App.css";
 import * as R from "ramda";
 import list from "./Asset/commonList";
@@ -14,7 +14,6 @@ import {
 } from "./utils";
 import { ALLOWED_GUESSES, GameState, WORD_LENGTH } from "./constants/base";
 import Board from "./components/Board";
-import { Button } from "@mui/material";
 import VirtualKeyboard from "./components/VirtualKeyboard";
 
 function App() {
@@ -66,7 +65,7 @@ function App() {
         return;
       }
       if (currentGuess.length < 5) {
-        setCurrentGuess(R.flip(R.concat)(key));
+        setCurrentGuess((previousGuess) => previousGuess + key);
       }
     }
   };
@@ -120,9 +119,13 @@ function App() {
         tabIndex={-1}
         onKeyDown={handleKeyPress}
       >
-        <Button variant="contained" onClick={resetGame}>
+        <button
+          type="button"
+          onClick={resetGame}
+          className="min-w-16 cursor-pointer rounded bg-[#1976d2] px-4 py-1.5 text-sm leading-[1.75] font-medium tracking-[0.02857em] text-white uppercase shadow-md transition-colors hover:bg-[#1565c0]"
+        >
           Restart Game
-        </Button>
+        </button>
         <Board
           displayList={displayList}
           guessResultList={guessResultList}

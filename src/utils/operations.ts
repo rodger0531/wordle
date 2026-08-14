@@ -1,5 +1,5 @@
 import { DigitStyle, WORD_LENGTH } from "../constants/base";
-import { KeyboardEvent } from "react";
+import type { KeyboardEvent } from "react";
 
 export const isAllowedKey = (key: string): boolean =>
   key.slice(0, 3) === "Key" || key === "Enter" || key === "Backspace";

@@ -1,46 +1,69 @@
-# Getting Started with Create React App
+# Wordle
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A clone of [Wordle](https://www.nytimes.com/games/wordle/index.html). Guess the
+hidden five-letter word in six tries; each guess is scored per letter as
+correct (green), present but misplaced (yellow), or absent.
 
-## Available Scripts
+Built with Bun, Vite, React 19, TypeScript and Tailwind CSS v4.
 
-In the project directory, you can run:
+## Requirements
 
-### `npm start`
+- [Bun](https://bun.sh) 1.3+
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Getting started
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+bun install
+```
 
-### `npm test`
+### `bun run dev`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Starts the Vite dev server with hot module replacement at
+[http://localhost:3000](http://localhost:3000).
 
-### `npm run build`
+### `bun test`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Runs the unit tests with Bun's built-in test runner.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `bun run typecheck`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Type-checks the project without emitting output.
 
-### `npm run eject`
+### `bun run build`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Type-checks, then builds the production bundle into `dist/`. Assets are
+prefixed with the `/wordle/` base path used by GitHub Pages.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `bun run preview`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Serves the contents of `dist/` locally to sanity-check a production build.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### `bun run deploy`
 
-## Learn More
+Builds and publishes `dist/` to the `gh-pages` branch.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Word lists
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`src/Asset/list.js` and `src/Asset/indexedList.js` are generated from the raw
+JSON sources in `src/Asset/`. `indexedList` buckets words by first letter so
+guess validation only scans one bucket. Regenerate them with:
+
+```bash
+bun run words
+```
+
+## Project layout
+
+```
+index.html                 Vite entry point
+vite.config.ts             Build config (React + Tailwind plugins, gh-pages base)
+scripts/
+  generate-word-lists.ts   Regenerates the bundled word lists
+src/
+  index.tsx                React root
+  App.tsx                  Game state and keyboard handling
+  components/              Board, GameRow, GameTile, VirtualKeyboard
+  constants/               Game constants and keyboard layout
+  utils/                   Guess scoring, keyboard colouring, helpers
+  Asset/                   Word lists
+```

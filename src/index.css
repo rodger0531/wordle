@@ -1,6 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/*
+ * Game tile appearance. `renderDigitStyle` toggles the state class, so the
+ * base rule is the "absent" look and each state overrides the background.
+ */
+.game-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  font-weight: bold;
+  font-size: 2.25rem;
+  color: white;
+  background-color: gray;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.game-tile.present {
+  background-color: #b59f3b;
+}
+
+.game-tile.correct {
+  background-color: #538d4e;
+}
+
+.game-tile.empty {
+  background-color: #282c34;
+  border: 2px solid #424242;
+}
 
 body {
   background-color: #282c34;
